@@ -12,6 +12,7 @@ FIGURES = [
     "correlation_heatmap.png",
     "feature_importance.png",
     "ablation.png",
+    "per_track_scores.png",
 ]
 
 
@@ -61,9 +62,12 @@ def _write_fake_results(folder):
     rows = [{"model": m, "feature_set": fs, "accuracy_mean": 0.8, "macro_f1_mean": 0.7, "macro_f1_std": 0.03}
             for m in ["Logistic Regression", "KNN", "Random Forest"] for fs in config.FEATURE_SETS]
     pd.DataFrame(rows).to_csv(folder / "ablation.csv", index=False)
+    pd.DataFrame({"precision": [0.67, 1.0, 0.86, 0.87], "recall": [0.86, 0.82, 0.8, 1.0],
+                  "f1": [0.75, 0.9, 0.83, 0.93], "support": [7, 17, 15, 13]}, index=config.TRACKS).to_csv(
+        folder / "per_track.csv")
 
 
-def test_plot_results_creates_six_png_figures(tmp_path, monkeypatch):
+def test_plot_results_creates_seven_png_figures(tmp_path, monkeypatch):
     monkeypatch.setattr(config, "RESULTS_DIR", tmp_path)
     _write_fake_results(tmp_path)
 

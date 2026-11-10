@@ -55,10 +55,11 @@ def analyze_feature_signal(X_train, y_train):
 
 
 def plot_results():
-    """Draw the six report figures from the saved results files and return their paths.
+    """Draw the seven report figures from the saved results files and return their paths.
 
     Reads (from config.RESULTS_DIR): class_balance, cv_results, confusion_matrix,
-    correlation, feature_importance and ablation CSV files. Saves PNGs in results/figures/.
+    correlation, feature_importance, ablation and per_track CSV files.
+    Saves PNGs in results/figures/.
     """
     results = config.RESULTS_DIR
     figures = results / "figures"
@@ -140,6 +141,21 @@ def plot_results():
     ax.set_title("Ablation: which groups of questions help")
     ax.legend(loc="upper center", ncol=3)
     paths.append(figures / "ablation.png")
+    fig.savefig(paths[-1], dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+    # 7. final exam, track by track: precision, recall and F1 for each of the 4 tracks
+    per_track = pd.read_csv(results / "per_track.csv", index_col=0)
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    width = 0.25
+    for i, (column, name) in enumerate([("precision", "Precision"), ("recall", "Recall"), ("f1", "F1")]):
+        ax.bar(np.arange(len(per_track)) + i * width, per_track[column], width, label=name)
+    ax.set_xticks(np.arange(len(per_track)) + width, per_track.index, rotation=15, ha="right")
+    ax.set_ylabel("Score on the hidden test students")
+    ax.set_ylim(0, 1.15)   # room above the bars for the legend
+    ax.set_title("Final exam by track: precision, recall and F1")
+    ax.legend(loc="upper center", ncol=3)
+    paths.append(figures / "per_track_scores.png")
     fig.savefig(paths[-1], dpi=150, bbox_inches="tight")
     plt.close(fig)
 
