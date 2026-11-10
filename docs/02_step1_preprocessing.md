@@ -41,8 +41,26 @@ tracks → **205** practice students + **52** hidden test students.
    they influenced cleaning, scaling or tuning, the final score would look better than it is.
    That mistake is called data leakage.
 
-## Your one change
+## Your change (already made for you by Sothon: read it, run its tests, then explain it)
 
-Make `clean_responses` print how many rows each rule removed (blank answers, out-of-range
-ratings). The result on the real data is "0 removed", which is itself worth saying in the report.
-Add a test in `tests/test_step1.py`, run `pytest`, and explain it.
+`clean_responses` now accepts `verbose=True`, and then it prints how many rows each rule removed. `step5_train.py`
+turns it on, so every training run starts with this line:
+
+```
+Cleaning: 320 rows read, 0 dropped for missing answers, 0 dropped for ratings that are not whole numbers from 1 to 5, 320 kept.
+```
+
+**How it works.** The function counts the rows (`len(out)`) at three moments: when it starts, after it drops rows with a
+blank answer, and after it drops rows whose ratings are not whole numbers from 1 to 5. The difference between two moments is
+how many rows that rule removed. It is silent by default, because the app and the tests also call this function and should
+not print.
+
+**Tests:** `test_clean_responses_reports_what_it_removed` (a table with 2 blank answers and 2 bad ratings must report
+exactly that) and `test_clean_responses_is_quiet_by_default`, both in `tests/test_step1.py`. Run them with
+`python -m pytest tests/test_step1.py`.
+
+**Be ready to say:** "0 dropped" means every response was complete and valid, so all 320 reached the next step; the 63
+students who are lost later are CS and ICT students set aside by `map_to_tracks`, not bad data.
+
+**Your next step, if you want one of your own:** add a count of how many students each major has before mapping, and print it
+in the same style. Commit it under your own name.

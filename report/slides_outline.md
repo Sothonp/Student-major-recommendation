@@ -15,7 +15,7 @@ Sections required by the professor: Introduction, Objectives, Methods, Experimen
 | 6 | **Methods: models and tuning** | Baseline + LR, KNN, RF, soft voting; settings searched; grid search with 5-fold CV | grid table | Thailong | 1:30 |
 | 7 | **Experiments: protocol** | Metrics (accuracy, macro F1, top-2); selection rule; final exam once; ablation | small diagram | Sothon | 1:15 |
 | 8 | **Results: model comparison** | All four ≈ 0.91 macro F1 vs baseline 0.12; tied → Logistic Regression | `model_comparison.png` | Sothon | 1:15 |
-| 9 | **Results: final exam** | 86.5% accuracy (interval 76.9–96.2%), 85.2% macro F1, 90.4% top-2; baseline 32.7% | `confusion_matrix.png` | Sothon | 1:30 |
+| 9 | **Results: final exam** | 86.5% accuracy (interval 76.9–96.2%), 85.2% macro F1, 90.4% top-2; baseline 32.7% | `confusion_matrix.png`, `per_track_scores.png` | Sothon | 1:30 |
 | 10 | **Results: what helps** | Ablation: scenarios +6 points; scores not clearly | `ablation.png` | Rachana | 1:15 |
 | 11 | **Results: which questions matter** | Correlation heatmap and importance (q18, q15, q17 on top) | `correlation_heatmap.png`, `feature_importance.png` | Rachana | 1:15 |
 | 12 | **Results: the web app** | Live demo or screenshot: answers → top 2 tracks + SHAP reasons | screenshot | Thailong / Sothon | 1:30 |

@@ -11,6 +11,9 @@ Repository: `Sothonp/Student-major-recommendation` (keep it **private** until th
    Sothon (with an AI assistant) and committed under Sothon's name; the commit message says whose step it is. Your own
    change, made after you read and understood your file, is committed under **your** name.
 4. The survey spreadsheet and the saved models are never committed (`.gitignore`).
+5. If the leader writes a change for you, the commit says so (for example "Sonika's change, written by Sothon on her
+   behalf; pending Sonika's review"). Nobody's name is put on a commit they did not make. You still have to read the
+   change, run its tests and be able to explain it, and you can improve it in your own commit under your own name.
 
 ## Steps for your one change
 
