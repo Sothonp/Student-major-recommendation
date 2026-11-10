@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your IT track suggestions</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main>
+  <h1>Your top suggestions</h1>
+
+  {% for result in results %}
+  <section class="card">
+    <h2>{{ loop.index }}. <span class="track">{{ result.track }}</span> <span class="percent">{{ result.percent }}%</span></h2>
+    <div class="bar"><div style="width: {{ result.percent }}%"></div></div>
+    <p class="why">Why this track:</p>
+    <ul class="reasons">
+      {% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  <p class="note">This is a suggestion based on your interests, not a decision. The percentages show how
+    strongly your answers match the pattern of students in each track.</p>
+  <a class="button" href="/">Start over</a>
+</main>
+</body>
+</html>
