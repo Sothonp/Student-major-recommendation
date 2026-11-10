@@ -56,15 +56,12 @@ def cross_validate_models(models, X_train, y_train):
     return table
 
 
-def select_best_model(cv_table):
-    """Pick the winner by macro F1, preferring the simpler model when scores are close.
+def _tie_group(cv_table):
+    """Find the best model and every model that is tied with it.
 
-    1. Ignore the baseline.
-    2. The best model has the highest mean macro F1.
-    3. Any model within one standard deviation of the best (using the best model's
-       standard deviation) counts as tied with it.
-    4. Among the tied models, take the simplest:
-       Logistic Regression < KNN < Random Forest < Soft Voting.
+    Returns (best, cutoff, tied): the model with the highest mean macro F1, the score a
+    model must reach to count as tied (best score minus the best model's standard
+    deviation), and the tied models listed simplest first.
     """
     real = cv_table.drop(index="Baseline", errors="ignore")
     unknown = [name for name in real.index if name not in config.MODEL_SIMPLICITY]
@@ -75,8 +72,22 @@ def select_best_model(cv_table):
         )
     best = real["macro_f1_mean"].idxmax()
     cutoff = real.loc[best, "macro_f1_mean"] - real.loc[best, "macro_f1_std"]
-    tied = set(real.index[real["macro_f1_mean"] >= cutoff])
-    return next(name for name in config.MODEL_SIMPLICITY if name in tied)
+    within = set(real.index[real["macro_f1_mean"] >= cutoff])
+    tied = [name for name in config.MODEL_SIMPLICITY if name in within]
+    return best, cutoff, tied
+
+
+def select_best_model(cv_table):
+    """Pick the winner by macro F1, preferring the simpler model when scores are close.
+
+    1. Ignore the baseline.
+    2. The best model has the highest mean macro F1.
+    3. Any model within one standard deviation of the best (using the best model's
+       standard deviation) counts as tied with it.
+    4. Among the tied models, take the simplest:
+       Logistic Regression < KNN < Random Forest < Soft Voting.
+    """
+    return _tie_group(cv_table)[2][0]
 
 
 def main():
@@ -118,8 +129,15 @@ def main():
     }
     (config.MODELS_DIR / "model_info.json").write_text(json.dumps(info, indent=2))
 
+    best, cutoff, tied = _tie_group(cv_table)
     print(cv_table.round(3).to_string())
-    print(f"\nWinner: {winner}  (trained on {len(X_train)} students, app model refit on {len(X_all)})")
+    print(
+        f"\nBest average macro F1: {best} "
+        f"({cv_table.loc[best, 'macro_f1_mean']:.3f} +/- {cv_table.loc[best, 'macro_f1_std']:.3f})."
+    )
+    print(f"Cut-off for 'tied': {cutoff:.3f} (the best score minus its standard deviation).")
+    print(f"Tied models (simplest first): {', '.join(tied)}.")
+    print(f"Winner: {winner}  (trained on {len(X_train)} students, app model refit on {len(X_all)})")
 
 
 if __name__ == "__main__":
