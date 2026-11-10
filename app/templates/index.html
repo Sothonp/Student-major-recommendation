@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IT Track Recommender</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main>
+  <h1>Which IT track fits you?</h1>
+  <p class="intro">Answer 18 short questions (about 3 to 5 minutes). We suggest two IT tracks based on your interests.
+    Nothing you type is saved.</p>
+
+  {% if errors %}
+  <div class="errors" role="alert">
+    <strong>Please fix these answers:</strong>
+    <ul>{% for message in errors %}<li>{{ message }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <form method="post" action="/recommend">
+    <h2>A. How interested are you in each area?</h2>
+    <p class="hint">1 = not interested, 5 = very interested</p>
+    {% for item in interests %}
+    <fieldset>
+      <legend>{{ item.n }}. {{ item.text }}</legend>
+      <div class="scale">
+        {% for v in range(1, 6) %}
+        <label><input type="radio" name="{{ item.id }}" value="{{ v }}" required {% if answers.get(item.id) == v|string %}checked{% endif %}><span>{{ v }}</span></label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    {% endfor %}
+
+    <h2>B. How much do you enjoy these activities?</h2>
+    <p class="hint">1 = not at all, 5 = enjoy it a lot</p>
+    {% for item in enjoyment %}
+    <fieldset>
+      <legend>{{ item.n }}. {{ item.text }}</legend>
+      <div class="scale">
+        {% for v in range(1, 6) %}
+        <label><input type="radio" name="{{ item.id }}" value="{{ v }}" required {% if answers.get(item.id) == v|string %}checked{% endif %}><span>{{ v }}</span></label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    {% endfor %}
+
+    <h2>C. What would you choose?</h2>
+    {% for item in scenarios %}
+    <fieldset>
+      <legend>{{ item.n }}. {{ item.text }}</legend>
+      <div class="choices">
+        {% for option in item.options %}
+        <label><input type="radio" name="{{ item.id }}" value="{{ option }}" required {% if answers.get(item.id) == option %}checked{% endif %}><span>{{ option }}</span></label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    {% endfor %}
+
+    <button type="submit">Get my recommendation</button>
+  </form>
+</main>
+</body>
+</html>
