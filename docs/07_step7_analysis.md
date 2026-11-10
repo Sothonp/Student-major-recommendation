@@ -4,7 +4,7 @@
 
 ## What this file does
 
-It shows **which questions separate the four tracks** and draws the six figures for the report.
+It shows **which questions separate the four tracks** and draws the seven figures for the report.
 
 ## Function by function
 
@@ -14,7 +14,7 @@ It shows **which questions separate the four tracks** and draws the six figures 
   - **Importance:** a Random Forest looks at all 18 questions and reports how much it relied on each. The
     numbers add up to 1. The one-hot columns of a scenario question are added together so every question
     gets one number.
-- **`plot_results()`** reads the saved result files and draws 6 PNG figures in `results/figures/`.
+- **`plot_results()`** reads the saved result files and draws 7 PNG figures in `results/figures/`.
 
 ## What the real data shows
 
@@ -25,7 +25,7 @@ It shows **which questions separate the four tracks** and draws the six figures 
 - Most important questions: **q18 (0.17), q15 (0.14), q17 (0.10)**, then q5, q4, q3. The top three are the
   scenario questions.
 
-## The six figures
+## The seven figures
 
 | File | Shows |
 |---|---|
@@ -35,6 +35,7 @@ It shows **which questions separate the four tracks** and draws the six figures 
 | `correlation_heatmap.png` | which answers go with which track |
 | `feature_importance.png` | which questions the Random Forest relies on |
 | `ablation.png` | macro F1 when groups of questions are removed |
+| `per_track_scores.png` | precision, recall and F1 of each track on the final exam |
 
 ## Five likely questions
 
@@ -49,7 +50,18 @@ It shows **which questions separate the four tracks** and draws the six figures 
    data directly, so students in that track rate them high.
 5. **Why use the training students only?** To keep the test students unseen, as in every other step.
 
-## Your one change
+## Your change (already made for you by Sothon: read it, run its test, then explain it)
 
-Add a seventh figure: a bar chart of the per-track F1 scores from `results/per_track.csv`. Write it inside
-`plot_results`, extend the figure list in `tests/test_step7.py`, and be ready to say what the chart shows.
+`plot_results` now draws a **seventh figure**, `per_track_scores.png`: for each track, three bars (precision, recall, F1) from the
+final exam. It reads `results/per_track.csv`, and the code is the last block of `plot_results`: it loops over the three columns
+and draws one set of bars for each, shifted sideways by one bar width.
+
+**What the chart shows:** Software Development is the easiest track (recall 1.00: no student was missed). Data Science / AI has
+perfect precision (1.00) but lower recall (0.82). Cybersecurity has the lowest precision (0.67), because three students from
+other tracks were labeled Cybersecurity, and only 7 test students are Cybersecurity, so its bars are noisy.
+
+**Test:** `test_plot_results_creates_seven_png_figures` in `tests/test_step7.py` (it now expects 7 files and writes a fake
+`per_track.csv`).
+
+**Your next step, if you want one of your own:** change the colors or add the number of students to each label, and commit it
+under your own name.

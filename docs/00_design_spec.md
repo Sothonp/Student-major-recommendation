@@ -268,7 +268,7 @@ Output `results/ablation.csv`. This answers: do scenario questions help, and do 
 | step6 | `evaluate_on_test(model, X_test, y_test)` | test metrics, confusion matrix, bootstrap CI | Sothon |
 | step6 | `run_ablation(X_train, y_train, best_params)` | the 3 × 4 ablation table | Sothon |
 | step7 | `analyze_feature_signal(X_train, y_train)` | correlation + importance tables | Rachana |
-| step7 | `plot_results()` | the six figures | Rachana |
+| step7 | `plot_results()` | the figures (six, later seven) | Rachana |
 | step8 | `load_artifacts()` | load model, background sample, info | Thailong |
 | step8 | `predict_top2(model, answers)` | top 2 tracks with probabilities | Thailong |
 | step8 | `explain_prediction(model, background, answers, track)` | 3 plain-language reasons | Thailong |

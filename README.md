@@ -34,4 +34,4 @@ py -3.14 -m venv .venv
 | `docs/` | design spec, one walkthrough per file, metrics guide, Q&A sheet, git guide |
 | `report/` | report and slides drafts |
 
-Start with `docs/01_overview_and_how_to_run.md`.
+Start with `docs/01_overview_and_how_to_run.md`, then `docs/13_code_tour.md` to understand how the code fits together.

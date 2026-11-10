@@ -128,7 +128,7 @@ questions). The app is a Flask web page; it stores no answers.
 ### 4.6 Implementation and tools
 
 Python with pandas, scikit-learn, SHAP, matplotlib and Flask. An AI coding assistant helped write the first version of the code; the team
-reviewed, ran and modified it, and automatic tests (75 checks) cover each step.
+reviewed, ran and modified it, and automatic tests (78 checks) cover each step.
 
 ## 5. Results
 
@@ -160,7 +160,7 @@ selection rule, the cut-off is 0.912 − 0.038 = 0.874, every model passes it, a
 | Networking | 0.857 | 0.800 | 15 |
 | Software Development | 0.867 | 1.000 | 13 |
 
-The confusion matrix (Figure `confusion_matrix.png`) shows that Software Development students were never missed; the main errors are two
+The confusion matrix (Figure `confusion_matrix.png`; per-track scores in `per_track_scores.png`) shows that Software Development students were never missed; the main errors are two
 Networking students and one Data Science / AI student labeled Cybersecurity. With only 52 test students, one student is about two points of
 accuracy, which is why the interval is wide; the cross-validation accuracy (0.907) lies inside it.
 

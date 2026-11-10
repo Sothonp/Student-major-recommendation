@@ -53,7 +53,21 @@ Two things to know about this table:
 5. **What is the standard deviation here?** How much the score changes between the 5 rounds. A big spread
    means small score differences between models mean little.
 
-## Your one change
+## Your change (done)
 
-Make `main()` print which models were tied and why the winner was chosen (for example "tied within 0.874:
-LR, KNN, RF, SV"). Add a test for the new output and explain it in the presentation.
+Training now prints how the winner was chosen. The last lines of a real run are:
+
+```
+Best average macro F1: KNN (0.912 +/- 0.038).
+Cut-off for 'tied': 0.874 (the best score minus its standard deviation).
+Tied models (simplest first): Logistic Regression, KNN, Random Forest, Soft Voting.
+Winner: Logistic Regression  (trained on 205 students, app model refit on 257)
+```
+
+**How it works.** The tie logic moved out of `select_best_model` into a small helper, `_tie_group`, that returns the best
+model, the cut-off and the tied models (simplest first). `select_best_model` returns the first tied model; `main()` prints all
+three. Using one helper for both guarantees the printout can never disagree with the decision.
+
+**Test:** `test_main_explains_how_the_winner_was_chosen` in `tests/test_step5.py`.
+
+**This answers the professor's likely question** "KNN scored highest, so why Logistic Regression?": show these four lines.

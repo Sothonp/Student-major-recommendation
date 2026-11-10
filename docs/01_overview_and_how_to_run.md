@@ -19,7 +19,7 @@ survey answers and majors are known.
 | 6 | Pick the best model with the selection rule | `step5_train.py` | Sothon |
 | 7 | Final exam: the winner predicts the 52 hidden students | `step6_evaluate.py` | Sothon |
 | 8 | Ablation: which groups of questions help? | `step6_evaluate.py` | Sothon |
-| 9 | Correlation, importance and the 6 figures | `step7_analysis.py` | Rachana |
+| 9 | Correlation, importance and the 7 figures | `step7_analysis.py` | Rachana |
 | 10 | Refit the winner on all 257 students and save it | `step5_train.py` | Sothon |
 | 11 | Top-2 tracks and the SHAP reasons | `step8_predict.py` | Thailong |
 | 12 | The web app | `app/app.py` | Sothon |
@@ -45,10 +45,13 @@ It is not in GitHub because it holds student answers.
 ```
 .venv\Scripts\python -m pipeline.step5_train       # steps 1-4: tune, compare, pick the winner, save models
 .venv\Scripts\python -m pipeline.step6_evaluate    # final exam + ablation
-.venv\Scripts\python -m pipeline.step7_analysis    # correlation, importance, 6 figures
+.venv\Scripts\python -m pipeline.step7_analysis    # correlation, importance, 7 figures
 .venv\Scripts\python app\app.py                    # web app at http://127.0.0.1:5000
-.venv\Scripts\python -m pytest                     # 75 checks; run before every merge
+.venv\Scripts\python -m pytest                     # 78 checks; run before every merge
 ```
+
+New to the code? Read `13_code_tour.md` first: the big picture, the reading order and a
+"I want to change …" cheat sheet.
 
 ## Folder map
 
