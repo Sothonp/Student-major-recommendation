@@ -136,9 +136,9 @@ def plot_results():
         ax.bar(np.arange(len(table)) + i * width, table[model], width, label=model)
     ax.set_xticks(np.arange(len(table)) + width, table.index)
     ax.set_ylabel("Macro F1 (5-fold cross-validation)")
-    ax.set_ylim(0, 1)
+    ax.set_ylim(0, 1.15)   # empty space above the bars, so the legend covers nothing
     ax.set_title("Ablation: which groups of questions help")
-    ax.legend()
+    ax.legend(loc="upper center", ncol=3)
     paths.append(figures / "ablation.png")
     fig.savefig(paths[-1], dpi=150, bbox_inches="tight")
     plt.close(fig)
