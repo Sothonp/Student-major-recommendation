@@ -8,9 +8,12 @@
 </head>
 <body>
 <main>
-  <h1>Which IT track fits you?</h1>
-  <p class="intro">Answer 18 short questions (about 3 to 5 minutes). We suggest two IT tracks based on your interests.
-    Nothing you type is saved.</p>
+  <header class="hero">
+    <p class="eyebrow">IT Track Recommender</p>
+    <h1>Which IT track fits you?</h1>
+    <p class="intro">Answer 18 short questions (about 3 to 5 minutes). We suggest two IT tracks based on your interests.
+      Nothing you type is saved.</p>
+  </header>
 
   {% if errors %}
   <div class="errors" role="alert">
@@ -20,11 +23,11 @@
   {% endif %}
 
   <form method="post" action="/recommend">
-    <h2>A. How interested are you in each area?</h2>
+    <h2><span class="badge">A</span>How interested are you in each area?</h2>
     <p class="hint">1 = not interested, 5 = very interested</p>
     {% for item in interests %}
     <fieldset>
-      <legend>{{ item.n }}. {{ item.text }}</legend>
+      <legend><span class="qnum">{{ item.n }}</span><span>{{ item.text }}</span></legend>
       <div class="scale">
         {% for v in range(1, 6) %}
         <label><input type="radio" name="{{ item.id }}" value="{{ v }}" required {% if answers.get(item.id) == v|string %}checked{% endif %}><span>{{ v }}</span></label>
@@ -33,11 +36,11 @@
     </fieldset>
     {% endfor %}
 
-    <h2>B. How much do you enjoy these activities?</h2>
+    <h2><span class="badge">B</span>How much do you enjoy these activities?</h2>
     <p class="hint">1 = not at all, 5 = enjoy it a lot</p>
     {% for item in enjoyment %}
     <fieldset>
-      <legend>{{ item.n }}. {{ item.text }}</legend>
+      <legend><span class="qnum">{{ item.n }}</span><span>{{ item.text }}</span></legend>
       <div class="scale">
         {% for v in range(1, 6) %}
         <label><input type="radio" name="{{ item.id }}" value="{{ v }}" required {% if answers.get(item.id) == v|string %}checked{% endif %}><span>{{ v }}</span></label>
@@ -46,10 +49,10 @@
     </fieldset>
     {% endfor %}
 
-    <h2>C. What would you choose?</h2>
+    <h2><span class="badge">C</span>What would you choose?</h2>
     {% for item in scenarios %}
     <fieldset>
-      <legend>{{ item.n }}. {{ item.text }}</legend>
+      <legend><span class="qnum">{{ item.n }}</span><span>{{ item.text }}</span></legend>
       <div class="choices">
         {% for option in item.options %}
         <label><input type="radio" name="{{ item.id }}" value="{{ option }}" required {% if answers.get(item.id) == option %}checked{% endif %}><span>{{ option }}</span></label>
