@@ -119,3 +119,15 @@ def test_select_best_model_rejects_a_model_missing_from_the_simplicity_list():
     table = _table({"Logistic Regression": (0.70, 0.02), "Decision Tree": (0.90, 0.02)})
     with pytest.raises(ValueError, match="MODEL_SIMPLICITY"):
         select_best_model(table)
+
+
+def test_main_explains_how_the_winner_was_chosen(capsys, trained):
+    # capsys is listed first so it is already recording while the `trained` fixture runs main()
+    out = capsys.readouterr().out
+    winner = json.loads((trained / "models" / "model_info.json").read_text())["winner"]
+
+    assert "Best average macro F1:" in out
+    assert "Cut-off for 'tied':" in out
+    assert "Tied models (simplest first):" in out
+    assert winner in out.split("Tied models (simplest first):")[1].split("\n")[0]
+    assert f"Winner: {winner}" in out
