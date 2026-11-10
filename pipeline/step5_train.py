@@ -81,7 +81,7 @@ def select_best_model(cv_table):
 
 def main():
     """Run steps 1-4, compare the models, choose the winner and save the results."""
-    data = map_to_tracks(clean_responses(load_responses(config.DATA_PATH)))
+    data = map_to_tracks(clean_responses(load_responses(config.DATA_PATH), verbose=True))
     X_train, X_test, y_train, y_test = split_train_test(data)
 
     candidates = build_candidates()

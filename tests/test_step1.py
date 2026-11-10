@@ -72,3 +72,29 @@ def test_split_train_test(fake_labeled):
     # the seed makes the split repeatable
     again = split_train_test(fake_labeled)
     assert again[1].index.tolist() == X_te.index.tolist()
+
+
+def _rows_with_problems(fake_raw):
+    """10 rows: 2 with a rating outside 1-5, 2 with a missing answer, 6 fine."""
+    df = fake_raw.head(10).copy()
+    df[config.RATING_COLS] = df[config.RATING_COLS].astype(float)
+    df.loc[1, "q2"] = 6           # rating outside 1-5
+    df.loc[2, "q3"] = 4.5         # not a whole number
+    df.loc[3, "q4"] = np.nan      # missing rating
+    df.loc[5, "q15"] = None       # missing scenario answer
+    return df
+
+
+def test_clean_responses_reports_what_it_removed(fake_raw, capsys):
+    clean_responses(_rows_with_problems(fake_raw), verbose=True)
+
+    out = capsys.readouterr().out
+    assert "10 rows read" in out
+    assert "2 dropped for missing answers" in out
+    assert "2 dropped for ratings that are not whole numbers from 1 to 5" in out
+    assert "6 kept" in out
+
+
+def test_clean_responses_is_quiet_by_default(fake_raw, capsys):
+    clean_responses(_rows_with_problems(fake_raw))
+    assert capsys.readouterr().out == ""

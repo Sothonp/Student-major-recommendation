@@ -20,12 +20,15 @@ def load_responses(path):
     return df.drop(columns="timestamp")
 
 
-def clean_responses(df):
+def clean_responses(df, verbose=False):
     """Keep only complete rows with valid answers.
 
     - text answers lose stray spaces
     - ratings must be the whole numbers 1 to 5 (4.0 is fine, 4.5 and 6 are not)
     - any row with a blank answer is dropped
+
+    With verbose=True it also prints how many rows each rule removed, so you can see
+    what cleaning did (on the real survey it removes nothing).
     """
     out = df.copy()
     for col in config.SCENARIO_COLS + [config.LABEL_COL]:
@@ -33,12 +36,24 @@ def clean_responses(df):
     for col in config.RATING_COLS:
         out[col] = pd.to_numeric(out[col], errors="coerce")
 
+    rows_read = len(out)
     out = out.dropna(subset=config.QUESTION_COLS + [config.LABEL_COL])
+    dropped_missing = rows_read - len(out)
+
+    rows_before_ratings = len(out)
     out = out[out[config.RATING_COLS].isin([1, 2, 3, 4, 5]).all(axis=1)]
+    dropped_ratings = rows_before_ratings - len(out)
 
     out[config.RATING_COLS] = out[config.RATING_COLS].astype("int64")
     for col in config.SCENARIO_COLS + [config.LABEL_COL]:
         out[col] = out[col].astype(str)
+
+    if verbose:
+        print(
+            f"Cleaning: {rows_read} rows read, {dropped_missing} dropped for missing answers, "
+            f"{dropped_ratings} dropped for ratings that are not whole numbers from 1 to 5, "
+            f"{len(out)} kept."
+        )
     return out
 
 
