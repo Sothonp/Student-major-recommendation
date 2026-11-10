@@ -95,3 +95,12 @@ def fake_xlsx_path(tmp_path, fake_raw):
     path = tmp_path / "Student Major Recommendation (Responses).xlsx"
     sheet.to_excel(path, index=False)
     return path
+
+
+@pytest.fixture
+def fitted_model(fake_split):
+    """A small Logistic Regression pipeline fitted on the fake training students."""
+    from pipeline.step3_models import build_candidates
+
+    X_train, _, y_train, _ = fake_split
+    return build_candidates()["Logistic Regression"].fit(X_train, y_train)
