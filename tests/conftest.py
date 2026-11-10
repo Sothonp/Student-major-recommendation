@@ -84,3 +84,14 @@ def fake_split(fake_labeled):
     from pipeline.step1_preprocessing import split_train_test
 
     return split_train_test(fake_labeled)
+
+
+@pytest.fixture
+def fake_xlsx_path(tmp_path, fake_raw):
+    """A fake survey spreadsheet in the same shape as the real Google Form export."""
+    sheet = fake_raw.copy()
+    sheet.columns = [f"Question {i} with a long header" for i in range(1, 20)]
+    sheet.insert(0, "Timestamp", 46336.6)
+    path = tmp_path / "Student Major Recommendation (Responses).xlsx"
+    sheet.to_excel(path, index=False)
+    return path
