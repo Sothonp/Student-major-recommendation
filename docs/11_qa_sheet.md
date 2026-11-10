@@ -33,11 +33,15 @@ IT majors share many first-year courses, so grades barely separate them.
 **7. What are the engineered scores?** `build_vs_protect` = average(q7, q12) − q4; `data_score` = average(q3, q11);
 `infra_score` = average(q5, q6, q13). They combine related answers to separate similar tracks.
 
-**8. Why these models?** Logistic Regression is a simple, explainable baseline; KNN works from similar students;
-Random Forest captures interactions; soft voting combines them. We compare them fairly and also report a
+**8. Why these models?**
+Logistic Regression is a simple, explainable baseline;
+KNN works from similar students;
+Random Forest captures interactions;
+soft voting combines them. We compare them fairly and also report a
 "most common track" baseline.
 
-**9. What is cross-validation?** Split the 205 practice students into 5 groups; train on 4, test on the 5th, rotate,
+**9. What is cross-validation?**
+Split the 205 practice students into 5 groups; train on 4, test on the 5th, rotate,
 average. It gives a stable score without touching the hidden test students.
 
 **10. What is tuning?** Choosing a model's settings (for example how many neighbors KNN uses) by trying many and
