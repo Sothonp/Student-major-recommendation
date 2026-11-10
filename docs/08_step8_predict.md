@@ -35,11 +35,13 @@ the contributions add up exactly to the model's probability.
 3. **What do the percentages mean?** The model's confidence, based on the pattern of AUPP students in our survey. They
    are not guarantees, and the page says it is a suggestion, not a decision.
 4. **Why can a reason be a low rating, like "software 2 out of 5" for Networking?** A low software interest does push
-   toward Networking, so the model used it. The sentence is accurate but could be worded better (see your change).
+   toward Networking, so the model used it. For ratings of 2 or less the sentence says "only" ("You rated … only 2 out of 5")
+   so it reads as a reason and not as a contradiction.
 5. **Is the explanation the same every time?** Yes: the random seed is fixed (`seed=42`).
 
 ## Your one change
 
-Improve the wording for low ratings: when a rating is 2 or less, say "You rated … only 2 out of 5" instead of the plain
-sentence. Change `explain_prediction`, update `tests/test_step8.py` (the "out of 5" check still holds), and show the
-before and after in the demo.
+Add a "What does not fit" line: besides the 3 answers that pushed *toward* a track, show the one answer that pushed hardest
+*against* it (the most negative SHAP value). Add it in `explain_prediction` (for example as an optional argument so the
+existing calls keep working), show it on `app/templates/result.html`, add a test in `tests/test_step8.py`, and be ready to
+explain why a student can still be a good fit even with one answer pointing the other way.

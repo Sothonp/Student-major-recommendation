@@ -47,7 +47,7 @@ It is not in GitHub because it holds student answers.
 .venv\Scripts\python -m pipeline.step6_evaluate    # final exam + ablation
 .venv\Scripts\python -m pipeline.step7_analysis    # correlation, importance, 6 figures
 .venv\Scripts\python app\app.py                    # web app at http://127.0.0.1:5000
-.venv\Scripts\python -m pytest                     # 71 checks; run before every merge
+.venv\Scripts\python -m pytest                     # 75 checks; run before every merge
 ```
 
 ## Folder map

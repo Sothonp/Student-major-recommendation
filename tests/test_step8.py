@@ -84,3 +84,22 @@ def test_load_artifacts_round_trip(tmp_path, monkeypatch, fitted_model, backgrou
     assert info == {"winner": "Logistic Regression"}
     assert loaded_background.shape == background.shape
     assert len(predict_top2(model, answers)) == 2
+
+
+def _rating_reasons(model, background, answers):
+    top_track = predict_top2(model, answers)[0][0]
+    reasons = explain_prediction(model, background, answers, top_track)
+    return [r for r in reasons if r.startswith("You rated")]
+
+
+def test_low_ratings_are_worded_with_only(fitted_model, background):
+    # Review fix: "You rated software 1 out of 5" under "Why this track" reads like a contradiction
+    rating_reasons = _rating_reasons(fitted_model, background, _extreme(1))
+    assert rating_reasons                                   # an all-ones student gets rating reasons
+    assert all("only 1 out of 5" in r for r in rating_reasons)
+
+
+def test_high_ratings_do_not_say_only(fitted_model, background):
+    rating_reasons = _rating_reasons(fitted_model, background, _extreme(5))
+    assert rating_reasons
+    assert all("5 out of 5" in r and "only" not in r for r in rating_reasons)

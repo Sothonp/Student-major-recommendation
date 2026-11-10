@@ -24,7 +24,10 @@ def build_candidates(feature_set="all"):
     ablation experiment in step 6 uses the non-default groups.
     """
     classifiers = {
-        "Baseline": DummyClassifier(strategy="most_frequent"),
+        # "prior" always answers the most common track, like "most_frequent", but also reports each
+        # track's share as its probability. That makes the baseline's top-2 score meaningful:
+        # it means "always suggest the two most common tracks".
+        "Baseline": DummyClassifier(strategy="prior"),
         "Logistic Regression": LogisticRegression(class_weight="balanced", max_iter=2000),
         "KNN": KNeighborsClassifier(),
         "Random Forest": RandomForestClassifier(class_weight="balanced", random_state=config.SEED),

@@ -99,7 +99,10 @@ def explain_prediction(model, background, answers, track, n_reasons=3):
     for i in strongest:
         q = config.QUESTION_COLS[i]
         if q in config.RATING_COLS:
-            reasons.append(f'You rated "{config.RATING_LABELS[q]}" {answers[q]} out of 5.')
+            # a low rating can push toward a track too (little interest in software points
+            # toward Networking); "only" makes that read as a reason, not a contradiction
+            only = "only " if int(answers[q]) <= 2 else ""
+            reasons.append(f'You rated "{config.RATING_LABELS[q]}" {only}{answers[q]} out of 5.')
         else:
             reasons.append(f'You chose "{answers[q]}" for {config.SCENARIO_LABELS[q]}.')
     return reasons

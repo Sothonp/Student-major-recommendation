@@ -25,7 +25,7 @@ later steps and the app need.
 
 | Model | Accuracy | Macro F1 | Top-2 |
 |---|---|---|---|
-| Baseline | 0.322 | 0.122 | 0.561 |
+| Baseline | 0.322 | 0.122 | 0.620 |
 | Logistic Regression | 0.907 | 0.910 ± 0.028 | 0.966 |
 | KNN | 0.907 | 0.912 ± 0.038 | 0.966 |
 | Random Forest | 0.902 | 0.905 ± 0.034 | 0.951 |
@@ -33,6 +33,12 @@ later steps and the app need.
 
 KNN has the highest average (0.912, spread 0.038), so any model above 0.874 is tied. All four are, so the
 simplest, **Logistic Regression**, wins.
+
+Two things to know about this table:
+- **Random Forest and Soft Voting have identical accuracy and macro F1.** We checked: on all 205 practice students the
+  voting team chooses the same track as Random Forest (Logistic Regression and KNN differ from it on only 1 student). Their
+  top-2 scores differ, because their probabilities are not the same.
+- **The baseline's top-2 (0.620) means "always suggest the two most common tracks"** (Data Science / AI and Networking).
 
 ## Five likely questions
 

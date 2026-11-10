@@ -52,5 +52,7 @@ group is not ignored. KNN has no such option.
 **Thailong:** add a value to one grid in `config.PARAM_GRIDS` (for example `C: 0.3` or `n_neighbors: 13`),
 re-run `step5_train`, and check whether the best setting changes. Update the grid-size test in
 `tests/test_config.py`. **Sothon:** add one more model to `build_candidates` (for example a
-`DecisionTreeClassifier`) with a small grid in `config.PARAM_GRIDS`, update `tests/test_step3.py`, and explain
-whether it is worth keeping.
+`DecisionTreeClassifier`) with a small grid in `config.PARAM_GRIDS`, **and add its name to `config.MODEL_SIMPLICITY`**
+(simplest first; if you forget, `select_best_model` stops with a clear error that says so). Update the model list in
+`tests/test_step3.py` and `tests/test_step4.py` and the grid sizes in `tests/test_config.py`, then explain whether the
+model is worth keeping.
