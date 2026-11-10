@@ -25,7 +25,7 @@ def test_fixed_settings():
     knn = c["KNN"].named_steps["clf"]
     rf = c["Random Forest"].named_steps["clf"]
 
-    assert isinstance(baseline, DummyClassifier) and baseline.strategy == "most_frequent"
+    assert isinstance(baseline, DummyClassifier) and baseline.strategy == "prior"   # always the most common track, with class shares as probabilities
     assert isinstance(lr, LogisticRegression)
     assert lr.class_weight == "balanced" and lr.max_iter == 2000
     assert isinstance(knn, KNeighborsClassifier)
@@ -51,3 +51,22 @@ def test_feature_set_reaches_the_preprocessor(fake_split):
     X_train, _, y_train, _ = fake_split
     pipe = build_candidates("ratings")["KNN"]
     assert pipe.named_steps["prep"].fit_transform(X_train).shape[1] == 14
+
+
+def test_baseline_top2_is_the_share_of_the_two_most_common_tracks(fake_split):
+    # Review fix: a "most common track" baseline must give real probabilities (the class shares),
+    # otherwise its top-2 score is decided by column order and means nothing.
+    import numpy as np
+    from sklearn.metrics import top_k_accuracy_score
+
+    X_train, X_test, y_train, y_test = fake_split
+    sizes = [("Data Science / AI", 30), ("Networking", 20), ("Software Development", 10), ("Cybersecurity", 5)]
+    keep = np.concatenate([np.flatnonzero(y_train == track)[:n] for track, n in sizes])
+    baseline = build_candidates()["Baseline"].fit(X_train.iloc[keep], y_train.iloc[keep])
+
+    proba = baseline.predict_proba(X_test)
+
+    # columns follow config.TRACKS (sorted): Cybersecurity, Data Science / AI, Networking, Software Development
+    assert np.allclose(proba[0], [5 / 65, 30 / 65, 20 / 65, 10 / 65])
+    top2 = top_k_accuracy_score(y_test, proba, k=2, labels=config.TRACKS)
+    assert abs(top2 - y_test.isin(["Data Science / AI", "Networking"]).mean()) < 1e-9

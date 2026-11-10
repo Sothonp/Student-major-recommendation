@@ -112,3 +112,10 @@ def test_main_saved_models_work(trained):
     assert final.predict_proba(background).shape == (50, 4)
     train_only = joblib.load(trained / "models" / "winner_train_only.joblib")
     assert train_only.predict(background).shape == (50,)
+
+
+def test_select_best_model_rejects_a_model_missing_from_the_simplicity_list():
+    # Review fix: a model added to build_candidates but not to config.MODEL_SIMPLICITY must fail loudly
+    table = _table({"Logistic Regression": (0.70, 0.02), "Decision Tree": (0.90, 0.02)})
+    with pytest.raises(ValueError, match="MODEL_SIMPLICITY"):
+        select_best_model(table)

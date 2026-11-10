@@ -128,7 +128,7 @@ questions). The app is a Flask web page; it stores no answers.
 ### 4.6 Implementation and tools
 
 Python with pandas, scikit-learn, SHAP, matplotlib and Flask. An AI coding assistant helped write the first version of the code; the team
-reviewed, ran and modified it, and automatic tests (71 checks) cover each step.
+reviewed, ran and modified it, and automatic tests (75 checks) cover each step.
 
 ## 5. Results
 
@@ -136,13 +136,13 @@ reviewed, ran and modified it, and automatic tests (71 checks) cover each step.
 
 | Model | Accuracy | Macro F1 | Top-2 |
 |---|---|---|---|
-| Baseline (most common track) | 0.322 ± 0.011 | 0.122 ± 0.003 | 0.561 ± 0.017 |
+| Baseline (most common track) | 0.322 ± 0.011 | 0.122 ± 0.003 | 0.620 ± 0.013 |
 | Logistic Regression | 0.907 ± 0.032 | 0.910 ± 0.028 | 0.966 ± 0.013 |
 | KNN | 0.907 ± 0.044 | 0.912 ± 0.038 | 0.966 ± 0.037 |
 | Random Forest | 0.902 ± 0.039 | 0.905 ± 0.034 | 0.951 ± 0.030 |
 | Soft Voting | 0.902 ± 0.039 | 0.905 ± 0.034 | 0.966 ± 0.013 |
 
-All four models are far above the baseline and are statistically tied (the differences are smaller than the fold-to-fold spread). Applying the
+The baseline always suggests the most common track; for top-2 it suggests the two most common tracks (Data Science / AI and Networking). All four models are far above the baseline and are tied (their differences are smaller than one standard deviation of the fold scores). Random Forest and Soft Voting have identical accuracy and macro F1 because the voting team chose the same track as Random Forest for all 205 training students; their top-2 scores differ. Applying the
 selection rule, the cut-off is 0.912 − 0.038 = 0.874, every model passes it, and the simplest, **Logistic Regression**, is chosen.
 (Figure: `results/figures/model_comparison.png`.)
 
@@ -151,7 +151,7 @@ selection rule, the cut-off is 0.912 − 0.038 = 0.874, every model passes it, a
 | | Accuracy | Macro F1 | Top-2 |
 |---|---|---|---|
 | Logistic Regression | 0.865 (95% interval 0.769–0.962) | 0.852 | 0.904 |
-| Baseline | 0.327 (95% interval 0.212–0.462) | 0.123 | 0.577 |
+| Baseline | 0.327 (95% interval 0.212–0.462) | 0.123 | 0.615 |
 
 | Track | Precision | Recall | Students |
 |---|---|---|---|
@@ -200,7 +200,7 @@ stricter figure. Direct comparison with Jubair et al. [5], who report 77.7% for 
 classes and the setting differ.
 
 The SHAP reasons show which answers the model relied on; they are not causes. A low rating can appear as a reason (a low software interest points
-toward Networking), which is accurate but may read oddly to a student.
+toward Networking); the app words such reasons as "only 2 out of 5" so they read as reasons and not as contradictions.
 
 ## 7. Limitations
 

@@ -43,5 +43,6 @@ same preprocessing, so the comparison is fair.
 ## Your one change
 
 Add a fourth score, for example `creative_score` = average of q8 and q14 (interfaces and
-creativity). Add it to `SCORE_COLS` and `add_interest_scores`, update the expected widths in
-`tests/test_step2.py` (43 → 44 and so on), run `step6_evaluate`, and see whether it helps.
+creativity). Add it to `SCORE_COLS` and `add_interest_scores`, then update the tests that count features: the widths in
+`tests/test_step2.py` (43 → 44 and 17 → 18; the others stay the same) and the 17-row correlation table in `tests/test_step7.py`
+(17 → 18 rows, and the expected index). Run `pytest`, then `step6_evaluate`, and see whether the new score helps.

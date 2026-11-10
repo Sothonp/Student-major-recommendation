@@ -101,6 +101,15 @@ the result a suggestion, not a decision.
 **27. Did you use AI to write the code?** Yes, an AI assistant helped write the first version. Our professor allowed AI help as
 long as we understand the code. Each member read, ran and changed their own part, and can explain it. Answer honestly if asked.
 
-**28. Who did what?** Sonika: `config.py`, step 1 (data). Thailong: step 2 (features), step 4 (tuning), step 8 (predictions and
+**28. Random Forest and Soft Voting have exactly the same scores. Did you really run the ensemble?** Yes. The voting team
+chose the same track as Random Forest for all 205 practice students (we checked), so accuracy and macro F1 are identical. Their
+top-2 scores differ (0.951 vs 0.966), which shows their probabilities are not the same. Logistic Regression and KNN also agree with
+the team on 204 of 205 students: the models mostly make the same decisions.
+
+**29. How can a constant baseline get 62% top-2 accuracy?** The baseline always suggests the two most common tracks (Data
+Science / AI and Networking). Those two tracks hold about 62% of the students, so it is right 62% of the time in top-2. That is
+why top-2 accuracy must be compared with this baseline, not with zero. Our models reach 0.95–0.97.
+
+**30. Who did what?** Sonika: `config.py`, step 1 (data). Thailong: step 2 (features), step 4 (tuning), step 8 (predictions and
 SHAP reasons). Sothon: step 3 (models), step 5 (training), step 6 (evaluation), the web app. Rachana: step 7 (analysis and figures).
 Edit this to match what each person really did.

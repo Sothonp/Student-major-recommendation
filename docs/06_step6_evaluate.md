@@ -21,7 +21,7 @@ also runs the ablation experiments.
 | | Accuracy | Macro F1 | Top-2 |
 |---|---|---|---|
 | Logistic Regression | **86.5%** (95% interval 76.9%–96.2%) | **85.2%** | **90.4%** |
-| Baseline | 32.7% | 12.3% | 57.7% |
+| Baseline | 32.7% | 12.3% | 61.5% |
 
 | Track | Precision | Recall | Students |
 |---|---|---|---|

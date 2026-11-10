@@ -67,6 +67,12 @@ def select_best_model(cv_table):
        Logistic Regression < KNN < Random Forest < Soft Voting.
     """
     real = cv_table.drop(index="Baseline", errors="ignore")
+    unknown = [name for name in real.index if name not in config.MODEL_SIMPLICITY]
+    if unknown:
+        raise ValueError(
+            f"Model(s) {unknown} are missing from MODEL_SIMPLICITY in pipeline/config.py. "
+            "Add each new model there (simplest first) so the tie rule can rank it."
+        )
     best = real["macro_f1_mean"].idxmax()
     cutoff = real.loc[best, "macro_f1_mean"] - real.loc[best, "macro_f1_std"]
     tied = set(real.index[real["macro_f1_mean"] >= cutoff])
